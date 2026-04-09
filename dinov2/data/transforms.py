@@ -26,6 +26,30 @@ from monai.transforms import (
     Lambdad
 )
 from torchio.transforms import RandomAffine
+import numpy as np
+
+
+def _ensure_soop_channel_first(image):
+    shape = tuple(image.shape)
+    ndim = len(shape)
+
+    if ndim == 3:
+        if isinstance(image, np.ndarray):
+            return image[None, ...]
+        return image.unsqueeze(0)
+
+    if ndim != 4:
+        raise ValueError(f"SOOP image must be 3D or 4D before transform, got shape={shape}")
+
+    if shape[0] == 1:
+        return image
+
+    if shape[-1] == 1:
+        if isinstance(image, np.ndarray):
+            return np.moveaxis(image, -1, 0)
+        return image.movedim(-1, 0)
+
+    raise ValueError(f"SOOP image must be single-channel, got shape={shape}")
 
 
 def make_classification_transform_3d(dataset_name: str, image_size: int, min_int: float):
@@ -139,6 +163,46 @@ def make_classification_transform_3d(dataset_name: str, image_size: int, min_int
                 Resized(keys=["image"], spatial_size=(144, 144, 112), mode="trilinear"),
                 CenterSpatialCropd(keys=["image"], roi_size=(image_size, image_size, image_size)),
                 Lambdad(keys=["label"], func=label_map)
+            ]
+        )
+
+    elif dataset_name == 'SOOP':
+        if image_size == 0:
+            resize_transform = Identityd(keys=["image"])
+        else:
+            resize_transform = Resized(keys=["image"], spatial_size=(image_size, image_size, image_size), mode="trilinear")
+
+        train_transforms = Compose(
+            [
+                EnsureTyped(keys=["image", "label"]),
+                Lambdad(keys=["image"], func=_ensure_soop_channel_first),
+                ScaleIntensityRangePercentilesd(
+                    keys=["image"], lower=0.05, upper=99.95, b_min=min_int, b_max=1, clip=True, channel_wise=True
+                ),
+                CropForegroundd(keys=["image"], source_key="image", select_fn=lambda x: x > min_int),
+                resize_transform,
+                OneOf(transforms=[
+                    RandAdjustContrastd(keys=["image"], prob=0.3, gamma=(0.5, 2)),
+                    RandGaussianSharpend(keys=["image"], prob=0.3),
+                    RandGaussianSmoothd(keys=["image"], prob=0.3),
+                    RandGaussianNoised(keys=["image"], prob=0.3, std=0.002),
+                ]),
+                RandFlipd(keys=["image"], prob=0.5, spatial_axis=0),
+                RandFlipd(keys=["image"], prob=0.5, spatial_axis=1),
+                RandFlipd(keys=["image"], prob=0.5, spatial_axis=2),
+                RandScaleIntensityd(keys="image", factors=0.1, prob=1.0),
+                RandShiftIntensityd(keys="image", offsets=0.1, prob=1.0),
+            ]
+        )
+        val_transforms = Compose(
+            [
+                EnsureTyped(keys=["image", "label"]),
+                Lambdad(keys=["image"], func=_ensure_soop_channel_first),
+                ScaleIntensityRangePercentilesd(
+                    keys=["image"], lower=0.05, upper=99.95, b_min=min_int, b_max=1, clip=True, channel_wise=True
+                ),
+                CropForegroundd(keys=["image"], source_key="image", select_fn=lambda x: x > min_int),
+                resize_transform,
             ]
         )
 

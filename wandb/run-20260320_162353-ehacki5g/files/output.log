@@ -1,0 +1,328 @@
+/mnt/disk2/miniconda3/envs/hieupcvp/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+I20260320 16:23:56 388255 dinov2 config.py:60] git:
+  sha: a91d8619c552f25c32f665818e1ab724634a793c, status: has uncommitted changes, branch: main
+
+I20260320 16:23:56 388255 dinov2 config.py:61] adamw_beta1: 0.9
+adamw_beta2: 0.999
+adamw_eps: 1e-08
+allow_classification_outcome: False
+base_data_dir: /mnt/disk2/hieupc2/Stroke_project/code/datasets/fold
+batch_size: 32
+cache_dir: /tmp/soop_cache
+config_file: dinov2/configs/train/vit3d_highres.yaml
+dataset_name: SOOP
+dataset_percent: 100
+dataset_seed: 0
+diagnostics_period: 10
+drop_missing_labels: False
+epoch_length: 125
+epochs: 10
+eval_period_iterations: 125
+grad_clip_norm: 0.0
+image_size: 112
+learning_rate: 0.001
+n_last_blocks: 4
+no_resume: False
+normalize_features: False
+num_classes: 2
+num_workers: 4
+optimizer: auto
+opts: ['train.output_dir=/mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/SOOP_result_image', 'train.cache_dir=/tmp/soop_cache']
+output_dir: /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/SOOP_result_image
+pretrained_weights: /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/weight/3dino_vit_weights.pth
+save_checkpoint_frequency: 5
+sgd_momentum: 0.9
+strict_pretrained: False
+target_col: nihss
+task_type: regression
+use_avgpool: False
+use_tabular: True
+use_wandb: True
+wandb_entity:
+wandb_mode: online
+wandb_project: 3dino-soop-outcome-preprocessed
+wandb_run_name: soop-preprocessed-nihss-image-tabu
+wandb_tags: soop,raw,regression
+weight_decay: 0.0
+I20260320 16:23:56 388255 dinov2 config.py:27] sqrt scaling learning rate; base: 0.001, new: 0.00025
+I20260320 16:23:56 388255 dinov2 config.py:34] MODEL:
+  WEIGHTS: ''
+compute_precision:
+  grad_scaler: true
+  teacher:
+    backbone:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp16
+        buffer_dtype: fp32
+    dino_head:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp16
+        buffer_dtype: fp32
+    ibot_head:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp16
+        buffer_dtype: fp32
+  student:
+    backbone:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp16
+        buffer_dtype: fp32
+    dino_head:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp32
+        buffer_dtype: fp32
+    ibot_head:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp32
+        buffer_dtype: fp32
+dino:
+  loss_weight: 1.0
+  head_n_prototypes: 65536
+  head_bottleneck_dim: 256
+  head_nlayers: 3
+  head_hidden_dim: 2048
+  koleo_loss_weight: 0.1
+ibot:
+  loss_weight: 1.0
+  mask_sample_probability: 0.5
+  mask_ratio_min_max:
+  - 0.2
+  - 0.75
+  separate_head: true
+  head_n_prototypes: 65536
+  head_bottleneck_dim: 256
+  head_nlayers: 3
+  head_hidden_dim: 2048
+train:
+  batch_size_per_gpu: 64
+  data_min_axis_size: 48
+  dataset_path: /home/txu/scratch/amgrp/dinov2_3d/dinov2_subset_datalist.json
+  output_dir: /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/SOOP_result_image
+  saveckp_freq: 20
+  seed: 0
+  num_workers: 32
+  OFFICIAL_EPOCH_LENGTH: 125
+  cache_dataset: true
+  centering: sinkhorn_knopp
+  cache_dir: /tmp/soop_cache
+student:
+  arch: vit_large_3d
+  patch_size: 16
+  drop_path_rate: 0.3
+  layerscale: 1.0e-05
+  drop_path_uniform: true
+  pretrained_weights: ''
+  full_pretrained_weights: /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/weight/3dino_vit_weights.pth
+  ffn_layer: mlp
+  block_chunks: 4
+  qkv_bias: true
+  proj_bias: true
+  ffn_bias: true
+teacher:
+  momentum_teacher: 0.992
+  final_momentum_teacher: 1
+  warmup_teacher_temp: 0.04
+  teacher_temp: 0.07
+  warmup_teacher_temp_epochs: 30
+optim:
+  epochs: 100
+  weight_decay: 0.04
+  weight_decay_end: 0.4
+  base_lr: 0.001
+  lr: 0.00025
+  warmup_epochs: 10
+  min_lr: 1.0e-06
+  clip_grad: 3.0
+  freeze_last_layer_epochs: 1
+  scaling_rule: sqrt_wrt_1024
+  patch_embed_lr_mult: 0.2
+  layerwise_decay: 0.9
+  adamw_beta1: 0.9
+  adamw_beta2: 0.999
+crops:
+  global_crops_in_slice_scale:
+  - 0.48
+  - 1.0
+  global_crops_cross_slice_scale:
+  - 0.5
+  - 1.0
+  local_crops_number: 8
+  local_crops_in_slice_scale:
+  - 0.16
+  - 0.48
+  local_crops_cross_slice_scale:
+  - 0.2
+  - 0.5
+  global_crops_size: 112
+  local_crops_size: 64
+evaluation:
+  eval_period_iterations: 3125
+
+I20260320 16:23:56 388255 dinov2 vision_transformer.py:109] using MLP layer as FFN
+I20260320 16:24:04 388255 dinov2 utils.py:27] Take key teacher in provided checkpoint dict
+I20260320 16:24:04 388255 dinov2 utils.py:34] Pretrained weights found at /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/weight/3dino_vit_weights.pth and loaded with msg: _IncompatibleKeys(missing_keys=[], unexpected_keys=['dino_head.mlp.0.weight', 'dino_head.mlp.0.bias', 'dino_head.mlp.2.weight', 'dino_head.mlp.2.bias', 'dino_head.mlp.4.weight', 'dino_head.mlp.4.bias', 'dino_head.last_layer.weight_g', 'dino_head.last_layer.weight_v', 'ibot_head.mlp.0.weight', 'ibot_head.mlp.0.bias', 'ibot_head.mlp.2.weight', 'ibot_head.mlp.2.bias', 'ibot_head.mlp.4.weight', 'ibot_head.mlp.4.bias', 'ibot_head.last_layer.weight_g', 'ibot_head.last_layer.weight_v'])
+I20260320 16:24:05 388255 dinov2 loaders.py:220] # of train samples: 461
+I20260320 16:24:05 388255 dinov2 loaders.py:221] # of val samples: 99
+I20260320 16:24:05 388255 dinov2 loaders.py:222] # of test samples: 99
+W20260320 16:24:06 388255 py.warnings warnings.py:112] /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/eval/utils.py:41: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with self.autocast_ctx():
+
+I20260320 16:24:07 388255 dinov2 linear3d_soop.py:417] optimizer=adamw lr=0.001 wd=0.0 normalize_features=False grad_clip_norm=0.0 strict_pretrained=False backbone_trainable=0 head_trainable=4104
+I20260320 16:24:07 388255 dinov2 loaders.py:283] sampler: sharded infinite
+I20260320 16:24:07 388255 dinov2 loaders.py:367] using PyTorch data loader
+I20260320 16:24:07 388255 dinov2 loaders.py:382] infinite data loader
+I20260320 16:24:07 388255 dinov2 loaders.py:308] sampler: distributed
+I20260320 16:24:07 388255 dinov2 loaders.py:367] using PyTorch data loader
+I20260320 16:24:07 388255 dinov2 loaders.py:380] # of batches: 4
+I20260320 16:24:07 388255 dinov2 loaders.py:308] sampler: distributed
+I20260320 16:24:07 388255 dinov2 loaders.py:367] using PyTorch data loader
+I20260320 16:24:07 388255 dinov2 loaders.py:380] # of batches: 4
+train:  23%|█████████████████▍                                                         | 290/1250 [55:36<2:33:30,  9.59s/it, grad=1.28e+02, loss=28.9113, lr=8.80e-04]
+I20260320 16:25:04 388255 dinov2 linear3d_soop.py:505] iter=0 loss=100.871681 lr=0.000999998 grad_norm=1172.333756 feature_absmax=5.647611 feature_norm_mean=77.977592 pred_absmax=1.177256
+I20260320 16:26:22 388255 dinov2 linear3d_soop.py:505] iter=10 loss=64.213249 lr=0.000999809 grad_norm=459.063892 feature_absmax=5.911904 feature_norm_mean=78.112167 pred_absmax=12.964468
+I20260320 16:28:12 388255 dinov2 linear3d_soop.py:505] iter=20 loss=45.478691 lr=0.000999304 grad_norm=270.174733 feature_absmax=5.993886 feature_norm_mean=78.065475 pred_absmax=13.274011
+I20260320 16:29:41 388255 dinov2 linear3d_soop.py:505] iter=30 loss=34.440544 lr=0.000998483 grad_norm=216.302048 feature_absmax=6.334353 feature_norm_mean=77.989609 pred_absmax=12.919723
+I20260320 16:31:41 388255 dinov2 linear3d_soop.py:505] iter=40 loss=87.236511 lr=0.000997348 grad_norm=343.575364 feature_absmax=5.756912 feature_norm_mean=77.949081 pred_absmax=16.426653
+I20260320 16:33:05 388255 dinov2 linear3d_soop.py:505] iter=50 loss=52.574955 lr=0.000995898 grad_norm=208.375033 feature_absmax=5.670491 feature_norm_mean=77.804443 pred_absmax=15.930723
+I20260320 16:35:01 388255 dinov2 linear3d_soop.py:505] iter=60 loss=50.848679 lr=0.000994136 grad_norm=303.168612 feature_absmax=5.758205 feature_norm_mean=77.943680 pred_absmax=15.528011
+I20260320 16:36:51 388255 dinov2 linear3d_soop.py:505] iter=70 loss=39.502106 lr=0.000992061 grad_norm=252.889756 feature_absmax=5.825871 feature_norm_mean=77.938095 pred_absmax=17.449734
+I20260320 16:38:41 388255 dinov2 linear3d_soop.py:505] iter=80 loss=34.409191 lr=0.000989675 grad_norm=178.899890 feature_absmax=6.551422 feature_norm_mean=78.158218 pred_absmax=17.776937
+I20260320 16:40:03 388255 dinov2 linear3d_soop.py:505] iter=90 loss=36.882828 lr=0.00098698 grad_norm=121.063260 feature_absmax=5.514716 feature_norm_mean=77.987213 pred_absmax=19.850725
+I20260320 16:41:51 388255 dinov2 linear3d_soop.py:505] iter=100 loss=33.136723 lr=0.000983978 grad_norm=147.675408 feature_absmax=5.613275 feature_norm_mean=77.767807 pred_absmax=17.429096
+I20260320 16:43:11 388255 dinov2 linear3d_soop.py:505] iter=110 loss=23.608816 lr=0.000980669 grad_norm=187.199044 feature_absmax=5.889332 feature_norm_mean=78.124611 pred_absmax=20.605938
+I20260320 16:44:56 388255 dinov2 linear3d_soop.py:505] iter=120 loss=64.368965 lr=0.000977057 grad_norm=365.344373 feature_absmax=5.997833 feature_norm_mean=78.032242 pred_absmax=16.747625
+I20260320 16:47:12 388255 dinov2 linear3d_soop.py:544] val_metrics={"loss": 42.78277472293738, "mae": 5.029515743255615, "mape": 3775206912.0, "mse": 42.78277587890625, "r2": 0.34238874912261963, "rmse": 6.540854454040527} samples=99
+I20260320 16:47:14 388255 dinov2 linear3d_soop.py:505] iter=130 loss=49.373245 lr=0.000973144 grad_norm=381.039007 feature_absmax=5.993126 feature_norm_mean=78.071259 pred_absmax=18.216778
+I20260320 16:48:36 388255 dinov2 linear3d_soop.py:505] iter=140 loss=52.875603 lr=0.000968932 grad_norm=170.602106 feature_absmax=5.623865 feature_norm_mean=78.003983 pred_absmax=19.040651
+I20260320 16:50:44 388255 dinov2 linear3d_soop.py:505] iter=150 loss=22.352379 lr=0.000964424 grad_norm=114.151517 feature_absmax=5.922721 feature_norm_mean=78.098755 pred_absmax=19.138674
+I20260320 16:52:22 388255 dinov2 linear3d_soop.py:505] iter=160 loss=41.838242 lr=0.000959623 grad_norm=454.037609 feature_absmax=5.459830 feature_norm_mean=77.830826 pred_absmax=19.539127
+I20260320 16:54:46 388255 dinov2 linear3d_soop.py:505] iter=170 loss=29.808384 lr=0.000954531 grad_norm=134.574604 feature_absmax=6.007241 feature_norm_mean=78.147919 pred_absmax=19.147726
+I20260320 16:56:17 388255 dinov2 linear3d_soop.py:505] iter=180 loss=23.516506 lr=0.000949152 grad_norm=122.691970 feature_absmax=6.147489 feature_norm_mean=77.947769 pred_absmax=18.880287
+I20260320 16:58:35 388255 dinov2 linear3d_soop.py:505] iter=190 loss=38.714172 lr=0.000943489 grad_norm=388.949881 feature_absmax=5.971397 feature_norm_mean=78.019608 pred_absmax=17.659328
+I20260320 17:00:28 388255 dinov2 linear3d_soop.py:505] iter=200 loss=34.790077 lr=0.000937547 grad_norm=136.448960 feature_absmax=5.437142 feature_norm_mean=78.105850 pred_absmax=19.282942
+I20260320 17:03:07 388255 dinov2 linear3d_soop.py:505] iter=210 loss=24.537535 lr=0.000931327 grad_norm=198.092323 feature_absmax=5.853640 feature_norm_mean=78.109482 pred_absmax=16.870735
+I20260320 17:04:44 388255 dinov2 linear3d_soop.py:505] iter=220 loss=64.039764 lr=0.000924836 grad_norm=594.005799 feature_absmax=5.763500 feature_norm_mean=78.176804 pred_absmax=20.892981
+I20260320 17:07:05 388255 dinov2 linear3d_soop.py:505] iter=230 loss=31.594234 lr=0.000918076 grad_norm=418.840955 feature_absmax=5.735210 feature_norm_mean=77.980934 pred_absmax=16.076004
+I20260320 17:08:51 388255 dinov2 linear3d_soop.py:505] iter=240 loss=31.423546 lr=0.000911052 grad_norm=252.140167 feature_absmax=5.778457 feature_norm_mean=77.976059 pred_absmax=22.146059
+I20260320 17:12:56 388255 dinov2 linear3d_soop.py:544] val_metrics={"loss": 43.6488546506323, "mae": 5.033618450164795, "mape": 3241428224.0, "mse": 43.64885330200195, "r2": 0.32907629013061523, "rmse": 6.6067280769348145} samples=99
+I20260320 17:12:56 388255 dinov2 linear3d_soop.py:505] iter=250 loss=35.697472 lr=0.000903769 grad_norm=146.971470 feature_absmax=5.679317 feature_norm_mean=77.900589 pred_absmax=14.851103
+I20260320 17:13:46 388255 dinov2 linear3d_soop.py:505] iter=260 loss=42.029999 lr=0.00089623 grad_norm=126.266149 feature_absmax=6.224381 feature_norm_mean=78.147171 pred_absmax=21.297295
+I20260320 17:16:08 388255 dinov2 linear3d_soop.py:505] iter=270 loss=51.200447 lr=0.000888441 grad_norm=339.095965 feature_absmax=5.887543 feature_norm_mean=77.879440 pred_absmax=19.945412
+I20260320 17:17:58 388255 dinov2 linear3d_soop.py:505] iter=280 loss=28.911259 lr=0.000880407 grad_norm=128.259201 feature_absmax=6.459849 feature_norm_mean=78.097382 pred_absmax=20.238514
+I20260320 17:20:11 388255 dinov2 linear3d_soop.py:505] iter=290 loss=14.987949 lr=0.000872132 grad_norm=300.941130 feature_absmax=5.956743 feature_norm_mean=78.056824 pred_absmax=16.563358
+I20260320 17:22:02 388255 dinov2 linear3d_soop.py:505] iter=300 loss=28.406616 lr=0.000863623 grad_norm=125.164815 feature_absmax=6.017985 feature_norm_mean=78.066055 pred_absmax=20.911127
+I20260320 17:23:53 388255 dinov2 linear3d_soop.py:505] iter=310 loss=61.718872 lr=0.000854884 grad_norm=710.429822 feature_absmax=5.982975 feature_norm_mean=77.864456 pred_absmax=24.931938
+I20260320 17:25:46 388255 dinov2 linear3d_soop.py:505] iter=320 loss=47.487904 lr=0.00084592 grad_norm=379.177202 feature_absmax=5.691115 feature_norm_mean=77.879509 pred_absmax=21.215513
+I20260320 17:26:43 388255 dinov2 linear3d_soop.py:505] iter=330 loss=47.780945 lr=0.000836739 grad_norm=140.570200 feature_absmax=5.637518 feature_norm_mean=77.925186 pred_absmax=21.381876
+I20260320 17:27:46 388255 dinov2 linear3d_soop.py:505] iter=340 loss=33.262810 lr=0.000827344 grad_norm=249.828148 feature_absmax=5.978381 feature_norm_mean=77.964798 pred_absmax=22.152397
+I20260320 17:28:27 388255 dinov2 linear3d_soop.py:505] iter=350 loss=24.462044 lr=0.000817743 grad_norm=112.907099 feature_absmax=6.060421 feature_norm_mean=78.354874 pred_absmax=22.859303
+I20260320 17:29:29 388255 dinov2 linear3d_soop.py:505] iter=360 loss=48.216034 lr=0.000807941 grad_norm=258.187374 feature_absmax=5.959506 feature_norm_mean=77.909035 pred_absmax=19.677036
+I20260320 17:30:11 388255 dinov2 linear3d_soop.py:505] iter=370 loss=32.339310 lr=0.000797944 grad_norm=123.163947 feature_absmax=5.642395 feature_norm_mean=78.054825 pred_absmax=23.477074
+I20260320 17:31:22 388255 dinov2 linear3d_soop.py:544] val_metrics={"loss": 43.01898632627545, "mae": 5.071056842803955, "mape": 3128440832.0, "mse": 43.01898956298828, "r2": 0.33875787258148193, "rmse": 6.558886528015137} samples=99
+I20260320 17:31:24 388255 dinov2 linear3d_soop.py:505] iter=380 loss=32.662483 lr=0.00078776 grad_norm=145.668923 feature_absmax=5.761405 feature_norm_mean=77.927628 pred_absmax=21.918993
+I20260320 17:32:05 388255 dinov2 linear3d_soop.py:505] iter=390 loss=32.731586 lr=0.000777393 grad_norm=125.115908 feature_absmax=5.820965 feature_norm_mean=78.118546 pred_absmax=24.359041
+I20260320 17:33:06 388255 dinov2 linear3d_soop.py:505] iter=400 loss=21.193377 lr=0.000766852 grad_norm=131.767747 feature_absmax=6.186677 feature_norm_mean=78.366463 pred_absmax=19.218849
+I20260320 17:33:48 388255 dinov2 linear3d_soop.py:505] iter=410 loss=15.822303 lr=0.000756141 grad_norm=107.619609 feature_absmax=5.715359 feature_norm_mean=78.116043 pred_absmax=18.000790
+I20260320 17:34:49 388255 dinov2 linear3d_soop.py:505] iter=420 loss=27.883057 lr=0.000745269 grad_norm=158.250913 feature_absmax=6.010493 feature_norm_mean=78.038528 pred_absmax=22.517189
+I20260320 17:35:31 388255 dinov2 linear3d_soop.py:505] iter=430 loss=21.501961 lr=0.000734243 grad_norm=372.912699 feature_absmax=5.678601 feature_norm_mean=78.056778 pred_absmax=24.113726
+I20260320 17:36:31 388255 dinov2 linear3d_soop.py:505] iter=440 loss=26.731436 lr=0.000723068 grad_norm=230.089468 feature_absmax=5.490261 feature_norm_mean=77.747482 pred_absmax=17.158140
+I20260320 17:37:16 388255 dinov2 linear3d_soop.py:505] iter=450 loss=34.042084 lr=0.000711752 grad_norm=244.183763 feature_absmax=5.797647 feature_norm_mean=78.032608 pred_absmax=23.221031
+I20260320 17:38:17 388255 dinov2 linear3d_soop.py:505] iter=460 loss=40.184223 lr=0.000700302 grad_norm=165.525736 feature_absmax=5.906590 feature_norm_mean=77.850830 pred_absmax=25.252831
+I20260320 17:39:02 388255 dinov2 linear3d_soop.py:505] iter=470 loss=26.499664 lr=0.000688726 grad_norm=538.168856 feature_absmax=5.952457 feature_norm_mean=77.866936 pred_absmax=20.700754
+I20260320 17:39:59 388255 dinov2 linear3d_soop.py:505] iter=480 loss=34.256165 lr=0.000677031 grad_norm=278.209316 feature_absmax=6.464919 feature_norm_mean=77.851547 pred_absmax=21.152113
+I20260320 17:40:43 388255 dinov2 linear3d_soop.py:505] iter=490 loss=28.706764 lr=0.000665224 grad_norm=437.716263 feature_absmax=5.556214 feature_norm_mean=78.142471 pred_absmax=19.329027
+I20260320 17:42:33 388255 dinov2 linear3d_soop.py:544] val_metrics={"loss": 45.379328872218274, "mae": 5.1412882804870605, "mape": 2967095552.0, "mse": 45.379329681396484, "r2": 0.30247724056243896, "rmse": 6.7364182472229} samples=99
+I20260320 17:42:33 388255 dinov2 linear3d_soop.py:505] iter=500 loss=27.564419 lr=0.000653313 grad_norm=108.075753 feature_absmax=5.747721 feature_norm_mean=77.929489 pred_absmax=17.934799
+I20260320 17:42:55 388255 dinov2 linear3d_soop.py:505] iter=510 loss=22.586208 lr=0.000641305 grad_norm=168.001312 feature_absmax=5.805577 feature_norm_mean=77.994171 pred_absmax=14.952261
+I20260320 17:43:57 388255 dinov2 linear3d_soop.py:505] iter=520 loss=24.425293 lr=0.000629207 grad_norm=90.942779 feature_absmax=5.962700 feature_norm_mean=78.090256 pred_absmax=21.614065
+I20260320 17:44:40 388255 dinov2 linear3d_soop.py:505] iter=530 loss=21.651001 lr=0.000617028 grad_norm=188.086433 feature_absmax=6.151747 feature_norm_mean=78.078781 pred_absmax=20.623352
+I20260320 17:45:40 388255 dinov2 linear3d_soop.py:505] iter=540 loss=21.946749 lr=0.000604775 grad_norm=172.353976 feature_absmax=5.151546 feature_norm_mean=77.855484 pred_absmax=23.126713
+I20260320 17:46:22 388255 dinov2 linear3d_soop.py:505] iter=550 loss=28.417908 lr=0.000592456 grad_norm=586.926260 feature_absmax=5.607603 feature_norm_mean=78.028641 pred_absmax=20.379202
+I20260320 17:47:22 388255 dinov2 linear3d_soop.py:505] iter=560 loss=31.495426 lr=0.000580078 grad_norm=101.041286 feature_absmax=6.382829 feature_norm_mean=77.926056 pred_absmax=19.890526
+I20260320 17:48:04 388255 dinov2 linear3d_soop.py:505] iter=570 loss=27.525648 lr=0.00056765 grad_norm=140.518990 feature_absmax=6.147973 feature_norm_mean=78.142868 pred_absmax=21.023594
+I20260320 17:49:06 388255 dinov2 linear3d_soop.py:505] iter=580 loss=21.613935 lr=0.000555179 grad_norm=193.871357 feature_absmax=5.702017 feature_norm_mean=78.148994 pred_absmax=17.778811
+I20260320 17:49:47 388255 dinov2 linear3d_soop.py:505] iter=590 loss=31.932316 lr=0.000542674 grad_norm=182.644410 feature_absmax=6.339393 feature_norm_mean=78.102615 pred_absmax=18.417950
+I20260320 17:50:47 388255 dinov2 linear3d_soop.py:505] iter=600 loss=46.672123 lr=0.000530141 grad_norm=202.219431 feature_absmax=5.815912 feature_norm_mean=77.982681 pred_absmax=18.885279
+I20260320 17:51:29 388255 dinov2 linear3d_soop.py:505] iter=610 loss=36.990471 lr=0.000517589 grad_norm=186.827775 feature_absmax=5.408172 feature_norm_mean=78.173523 pred_absmax=22.103525
+I20260320 17:52:27 388255 dinov2 linear3d_soop.py:505] iter=620 loss=21.526667 lr=0.000505026 grad_norm=211.150848 feature_absmax=5.970120 feature_norm_mean=78.100418 pred_absmax=25.037579
+I20260320 17:53:39 388255 dinov2 linear3d_soop.py:544] val_metrics={"loss": 48.93143802218967, "mae": 5.210550785064697, "mape": 2266978560.0, "mse": 48.931434631347656, "r2": 0.2478780746459961, "rmse": 6.995100975036621} samples=99
+I20260320 17:53:41 388255 dinov2 linear3d_soop.py:505] iter=630 loss=55.643860 lr=0.00049246 grad_norm=173.438857 feature_absmax=5.816348 feature_norm_mean=78.109100 pred_absmax=18.886417
+I20260320 17:54:25 388255 dinov2 linear3d_soop.py:505] iter=640 loss=31.943333 lr=0.000479899 grad_norm=151.187102 feature_absmax=5.522611 feature_norm_mean=77.976433 pred_absmax=21.792326
+I20260320 17:55:25 388255 dinov2 linear3d_soop.py:505] iter=650 loss=46.356674 lr=0.000467351 grad_norm=330.485029 feature_absmax=5.948330 feature_norm_mean=77.916550 pred_absmax=19.106453
+I20260320 17:56:12 388255 dinov2 linear3d_soop.py:505] iter=660 loss=44.440018 lr=0.000454823 grad_norm=244.851382 feature_absmax=5.844882 feature_norm_mean=78.085144 pred_absmax=19.258295
+I20260320 17:57:08 388255 dinov2 linear3d_soop.py:505] iter=670 loss=22.052870 lr=0.000442323 grad_norm=223.706268 feature_absmax=6.688762 feature_norm_mean=78.142380 pred_absmax=27.567291
+I20260320 17:57:55 388255 dinov2 linear3d_soop.py:505] iter=680 loss=30.993195 lr=0.00042986 grad_norm=171.827752 feature_absmax=5.870534 feature_norm_mean=77.902519 pred_absmax=17.217625
+I20260320 17:58:51 388255 dinov2 linear3d_soop.py:505] iter=690 loss=51.996967 lr=0.000417442 grad_norm=176.434168 feature_absmax=5.763533 feature_norm_mean=77.955597 pred_absmax=21.367743
+I20260320 17:59:40 388255 dinov2 linear3d_soop.py:505] iter=700 loss=28.458340 lr=0.000405075 grad_norm=279.207791 feature_absmax=6.136094 feature_norm_mean=78.229095 pred_absmax=24.051277
+I20260320 18:00:37 388255 dinov2 linear3d_soop.py:505] iter=710 loss=24.758362 lr=0.000392769 grad_norm=154.424937 feature_absmax=5.707107 feature_norm_mean=78.014893 pred_absmax=18.191380
+I20260320 18:01:23 388255 dinov2 linear3d_soop.py:505] iter=720 loss=36.649597 lr=0.00038053 grad_norm=394.467994 feature_absmax=5.451073 feature_norm_mean=78.121422 pred_absmax=20.872341
+I20260320 18:02:20 388255 dinov2 linear3d_soop.py:505] iter=730 loss=48.417480 lr=0.000368367 grad_norm=372.107579 feature_absmax=5.502511 feature_norm_mean=77.927322 pred_absmax=19.556568
+I20260320 18:03:08 388255 dinov2 linear3d_soop.py:505] iter=740 loss=35.975094 lr=0.000356286 grad_norm=139.930648 feature_absmax=5.588210 feature_norm_mean=77.823242 pred_absmax=24.888988
+I20260320 18:04:49 388255 dinov2 linear3d_soop.py:544] val_metrics={"loss": 45.0238388523911, "mae": 5.181059837341309, "mape": 2914396672.0, "mse": 45.02383041381836, "r2": 0.3079415559768677, "rmse": 6.709980010986328} samples=99
+I20260320 18:04:50 388255 dinov2 linear3d_soop.py:505] iter=750 loss=35.240158 lr=0.000344297 grad_norm=331.271378 feature_absmax=5.952984 feature_norm_mean=78.152283 pred_absmax=25.037186
+I20260320 18:05:11 388255 dinov2 linear3d_soop.py:505] iter=760 loss=40.937653 lr=0.000332406 grad_norm=158.794522 feature_absmax=6.035899 feature_norm_mean=78.242203 pred_absmax=19.504835
+I20260320 18:06:11 388255 dinov2 linear3d_soop.py:505] iter=770 loss=24.793194 lr=0.000320621 grad_norm=308.880913 feature_absmax=6.082419 feature_norm_mean=78.001068 pred_absmax=21.204000
+I20260320 18:06:58 388255 dinov2 linear3d_soop.py:505] iter=780 loss=41.293610 lr=0.000308949 grad_norm=464.545723 feature_absmax=6.244304 feature_norm_mean=78.094536 pred_absmax=19.910870
+I20260320 18:07:54 388255 dinov2 linear3d_soop.py:505] iter=790 loss=35.930214 lr=0.000297397 grad_norm=139.903278 feature_absmax=5.301828 feature_norm_mean=77.898537 pred_absmax=22.577297
+I20260320 18:08:44 388255 dinov2 linear3d_soop.py:505] iter=800 loss=23.625599 lr=0.000285974 grad_norm=243.556983 feature_absmax=5.848157 feature_norm_mean=77.970657 pred_absmax=19.426466
+I20260320 18:09:36 388255 dinov2 linear3d_soop.py:505] iter=810 loss=20.535528 lr=0.000274686 grad_norm=157.130273 feature_absmax=5.760202 feature_norm_mean=78.162697 pred_absmax=21.691391
+I20260320 18:10:32 388255 dinov2 linear3d_soop.py:505] iter=820 loss=21.792961 lr=0.00026354 grad_norm=126.965158 feature_absmax=5.976520 feature_norm_mean=78.114693 pred_absmax=19.251625
+I20260320 18:11:17 388255 dinov2 linear3d_soop.py:505] iter=830 loss=27.186644 lr=0.000252544 grad_norm=145.559100 feature_absmax=5.718517 feature_norm_mean=78.106232 pred_absmax=22.483416
+I20260320 18:12:15 388255 dinov2 linear3d_soop.py:505] iter=840 loss=20.398338 lr=0.000241703 grad_norm=100.306112 feature_absmax=6.011762 feature_norm_mean=78.078003 pred_absmax=19.778780
+I20260320 18:12:59 388255 dinov2 linear3d_soop.py:505] iter=850 loss=16.939655 lr=0.000231026 grad_norm=257.747102 feature_absmax=5.680628 feature_norm_mean=77.965370 pred_absmax=17.929018
+I20260320 18:13:58 388255 dinov2 linear3d_soop.py:505] iter=860 loss=26.961927 lr=0.000220519 grad_norm=165.148044 feature_absmax=5.833423 feature_norm_mean=78.114174 pred_absmax=20.338291
+I20260320 18:14:40 388255 dinov2 linear3d_soop.py:505] iter=870 loss=27.285938 lr=0.000210189 grad_norm=100.881961 feature_absmax=6.501918 feature_norm_mean=78.158081 pred_absmax=21.946627
+I20260320 18:15:56 388255 dinov2 linear3d_soop.py:544] val_metrics={"loss": 45.1188437721946, "mae": 5.172246932983398, "mape": 2889334272.0, "mse": 45.11884307861328, "r2": 0.30648112297058105, "rmse": 6.7170562744140625} samples=99
+I20260320 18:15:59 388255 dinov2 linear3d_soop.py:505] iter=880 loss=41.428440 lr=0.000200041 grad_norm=244.016036 feature_absmax=5.765482 feature_norm_mean=77.980591 pred_absmax=28.541424
+I20260320 18:16:43 388255 dinov2 linear3d_soop.py:505] iter=890 loss=40.973167 lr=0.000190083 grad_norm=230.746485 feature_absmax=5.585172 feature_norm_mean=78.093231 pred_absmax=26.895201
+I20260320 18:17:46 388255 dinov2 linear3d_soop.py:505] iter=900 loss=25.223854 lr=0.000180321 grad_norm=190.075593 feature_absmax=6.022146 feature_norm_mean=77.985313 pred_absmax=19.720201
+I20260320 18:18:28 388255 dinov2 linear3d_soop.py:505] iter=910 loss=33.748310 lr=0.00017076 grad_norm=140.659223 feature_absmax=6.105102 feature_norm_mean=78.092239 pred_absmax=21.141373
+I20260320 18:19:28 388255 dinov2 linear3d_soop.py:505] iter=920 loss=22.123695 lr=0.000161408 grad_norm=113.163174 feature_absmax=6.102862 feature_norm_mean=77.899460 pred_absmax=19.109501
+I20260320 18:20:11 388255 dinov2 linear3d_soop.py:505] iter=930 loss=33.006069 lr=0.000152269 grad_norm=125.659610 feature_absmax=6.152551 feature_norm_mean=78.120697 pred_absmax=20.210875
+I20260320 18:21:14 388255 dinov2 linear3d_soop.py:505] iter=940 loss=29.114876 lr=0.00014335 grad_norm=114.785134 feature_absmax=5.933413 feature_norm_mean=77.839287 pred_absmax=21.134569
+I20260320 18:21:58 388255 dinov2 linear3d_soop.py:505] iter=950 loss=43.276161 lr=0.000134657 grad_norm=238.208212 feature_absmax=6.114398 feature_norm_mean=77.890411 pred_absmax=21.328476
+I20260320 18:22:57 388255 dinov2 linear3d_soop.py:505] iter=960 loss=31.079344 lr=0.000126194 grad_norm=100.450935 feature_absmax=5.932064 feature_norm_mean=78.267258 pred_absmax=20.793650
+I20260320 18:23:41 388255 dinov2 linear3d_soop.py:505] iter=970 loss=17.162479 lr=0.000117967 grad_norm=102.558527 feature_absmax=6.141722 feature_norm_mean=77.981796 pred_absmax=21.135445
+I20260320 18:24:44 388255 dinov2 linear3d_soop.py:505] iter=980 loss=23.472969 lr=0.000109981 grad_norm=217.634702 feature_absmax=5.454831 feature_norm_mean=78.145966 pred_absmax=19.858194
+I20260320 18:25:28 388255 dinov2 linear3d_soop.py:505] iter=990 loss=31.274660 lr=0.000102242 grad_norm=111.794620 feature_absmax=5.661930 feature_norm_mean=78.198921 pred_absmax=29.193768
+I20260320 18:27:17 388255 dinov2 linear3d_soop.py:544] val_metrics={"loss": 44.05226243144334, "mae": 5.164391994476318, "mape": 3084257024.0, "mse": 44.05226135253906, "r2": 0.3228755593299866, "rmse": 6.637187957763672} samples=99
+I20260320 18:27:17 388255 dinov2 linear3d_soop.py:505] iter=1000 loss=28.001158 lr=9.47541e-05 grad_norm=123.930588 feature_absmax=5.836977 feature_norm_mean=78.084702 pred_absmax=21.513237
+I20260320 18:27:39 388255 dinov2 linear3d_soop.py:505] iter=1010 loss=31.766611 lr=8.75222e-05 grad_norm=143.220740 feature_absmax=5.807726 feature_norm_mean=77.754921 pred_absmax=18.242743
+I20260320 18:28:39 388255 dinov2 linear3d_soop.py:505] iter=1020 loss=35.935066 lr=8.05507e-05 grad_norm=221.550906 feature_absmax=5.669170 feature_norm_mean=78.045959 pred_absmax=28.073174
+I20260320 18:29:22 388255 dinov2 linear3d_soop.py:505] iter=1030 loss=33.581299 lr=7.38441e-05 grad_norm=135.215086 feature_absmax=6.171257 feature_norm_mean=77.997437 pred_absmax=23.605593
+I20260320 18:30:25 388255 dinov2 linear3d_soop.py:505] iter=1040 loss=47.520271 lr=6.74068e-05 grad_norm=267.689089 feature_absmax=5.675965 feature_norm_mean=78.201080 pred_absmax=16.130913
+I20260320 18:31:07 388255 dinov2 linear3d_soop.py:505] iter=1050 loss=27.403797 lr=6.12427e-05 grad_norm=239.197657 feature_absmax=5.904073 feature_norm_mean=77.856201 pred_absmax=24.090792
+I20260320 18:32:11 388255 dinov2 linear3d_soop.py:505] iter=1060 loss=24.353329 lr=5.53557e-05 grad_norm=103.114583 feature_absmax=5.858045 feature_norm_mean=78.031143 pred_absmax=23.782042
+I20260320 18:32:54 388255 dinov2 linear3d_soop.py:505] iter=1070 loss=37.118668 lr=4.97495e-05 grad_norm=166.787880 feature_absmax=6.087512 feature_norm_mean=77.894173 pred_absmax=26.751072
+I20260320 18:33:55 388255 dinov2 linear3d_soop.py:505] iter=1080 loss=32.837891 lr=4.44277e-05 grad_norm=131.750623 feature_absmax=6.129244 feature_norm_mean=78.151169 pred_absmax=19.875782
+I20260320 18:34:37 388255 dinov2 linear3d_soop.py:505] iter=1090 loss=18.527077 lr=3.93937e-05 grad_norm=91.833546 feature_absmax=6.089394 feature_norm_mean=78.158035 pred_absmax=19.748722
+I20260320 18:35:38 388255 dinov2 linear3d_soop.py:505] iter=1100 loss=10.276812 lr=3.46506e-05 grad_norm=130.429329 feature_absmax=5.599290 feature_norm_mean=77.932480 pred_absmax=21.545542
+I20260320 18:36:20 388255 dinov2 linear3d_soop.py:505] iter=1110 loss=23.698004 lr=3.02015e-05 grad_norm=127.333020 feature_absmax=5.636652 feature_norm_mean=77.928535 pred_absmax=18.879103
+I20260320 18:37:23 388255 dinov2 linear3d_soop.py:505] iter=1120 loss=27.385735 lr=2.6049e-05 grad_norm=326.873757 feature_absmax=5.566470 feature_norm_mean=77.857040 pred_absmax=19.229376
+I20260320 18:38:33 388255 dinov2 linear3d_soop.py:544] val_metrics={"loss": 44.1840407631614, "mae": 5.194953918457031, "mape": 3269691904.0, "mse": 44.18403625488281, "r2": 0.3208500146865845, "rmse": 6.647107124328613} samples=99
+I20260320 18:38:36 388255 dinov2 linear3d_soop.py:505] iter=1130 loss=28.451092 lr=2.2196e-05 grad_norm=102.163385 feature_absmax=6.272940 feature_norm_mean=78.015869 pred_absmax=23.165249
+I20260320 18:39:18 388255 dinov2 linear3d_soop.py:505] iter=1140 loss=38.884949 lr=1.86447e-05 grad_norm=291.899956 feature_absmax=5.229543 feature_norm_mean=78.044136 pred_absmax=28.896931
+I20260320 18:40:18 388255 dinov2 linear3d_soop.py:505] iter=1150 loss=25.774485 lr=1.53974e-05 grad_norm=102.225609 feature_absmax=5.442730 feature_norm_mean=78.080986 pred_absmax=21.237246
+I20260320 18:41:00 388255 dinov2 linear3d_soop.py:505] iter=1160 loss=33.234253 lr=1.24563e-05 grad_norm=230.826075 feature_absmax=6.270621 feature_norm_mean=77.801041 pred_absmax=21.624197
+I20260320 18:42:03 388255 dinov2 linear3d_soop.py:505] iter=1170 loss=18.317324 lr=9.82306e-06 grad_norm=143.045846 feature_absmax=5.878119 feature_norm_mean=77.992577 pred_absmax=20.930515
+I20260320 18:42:47 388255 dinov2 linear3d_soop.py:505] iter=1180 loss=57.543541 lr=7.49945e-06 grad_norm=153.035334 feature_absmax=5.768054 feature_norm_mean=78.046165 pred_absmax=16.707293
+I20260320 18:43:53 388255 dinov2 linear3d_soop.py:505] iter=1190 loss=19.876316 lr=5.48691e-06 grad_norm=127.495553 feature_absmax=5.349810 feature_norm_mean=78.077591 pred_absmax=29.842293
+I20260320 18:44:34 388255 dinov2 linear3d_soop.py:505] iter=1200 loss=17.477112 lr=3.78672e-06 grad_norm=126.068050 feature_absmax=6.023654 feature_norm_mean=78.285858 pred_absmax=25.749538
+I20260320 18:45:29 388255 dinov2 linear3d_soop.py:505] iter=1210 loss=34.952026 lr=2.39994e-06 grad_norm=210.363314 feature_absmax=6.345537 feature_norm_mean=78.044678 pred_absmax=20.840731
+I20260320 18:46:05 388255 dinov2 linear3d_soop.py:505] iter=1220 loss=44.716553 lr=1.32747e-06 grad_norm=165.244701 feature_absmax=5.537320 feature_norm_mean=77.974411 pred_absmax=21.262289
+I20260320 18:46:55 388255 dinov2 linear3d_soop.py:505] iter=1230 loss=24.096933 lr=5.6996e-07 grad_norm=160.506654 feature_absmax=5.551969 feature_norm_mean=78.152771 pred_absmax=26.379873
+I20260320 18:47:30 388255 dinov2 linear3d_soop.py:505] iter=1240 loss=35.942936 lr=1.27905e-07 grad_norm=106.047607 feature_absmax=5.356717 feature_norm_mean=77.997162 pred_absmax=22.173830
+I20260320 18:49:02 388255 dinov2 linear3d_soop.py:544] val_metrics={"loss": 44.387343897964016, "mae": 5.188549995422363, "mape": 3158829568.0, "mse": 44.38734436035156, "r2": 0.3177250027656555, "rmse": 6.66238260269165} samples=99

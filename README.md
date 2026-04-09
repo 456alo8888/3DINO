@@ -200,6 +200,49 @@ Adding new classification datasets for finetuning requires the following steps:
 2. Create training and validation transforms for the dataset in: `dinov2/data/transforms.py`
 3. Create a new classification dataset in: `dinov2/data/loaders.py`
 
+### SOOP stroke outcome evaluation
+
+To evaluate stroke outcomes on SOOP split CSVs (`train.csv`, `valid.csv`, `test.csv`) using 3DINO backbone features, run:
+
+```shell
+PYTHONPATH=. python dinov2/eval/linear3d_soop.py \
+  --config-file 'dinov2/configs/train/vit3d_highres.yaml' \
+  --output-dir 'path/to/output_dir' \
+  --pretrained-weights 'path/to/eval/training_12499/teacher_checkpoint.pth' \
+  --dataset-name 'SOOP' \
+  --base-data-dir '/path/to/fold_dir' \
+  --cache-dir '/path/to/cache_dir' \
+  --target-col 'gs_rankin_6isdeath' \
+  --task-type 'regression' \
+  --batch-size 8 \
+  --epochs 10 \
+  --epoch-length 125 \
+  --eval-period-iterations 125
+```
+
+To run the multimodal image+tabular variant, add `--use-tabular`.
+
+Regression outputs include: `mse`, `rmse`, `mae`, `mape`, `r2`, and `loss` in `results_eval_linear_soop.json`.
+
+Optional Weights & Biases logging can be enabled with:
+
+```shell
+export WANDB_API_KEY='your_api_key'
+PYTHONPATH=. python dinov2/eval/linear3d_soop.py \
+  --config-file 'dinov2/configs/train/vit3d_highres.yaml' \
+  --output-dir 'path/to/output_dir' \
+  --pretrained-weights 'path/to/eval/training_12499/teacher_checkpoint.pth' \
+  --dataset-name 'SOOP' \
+  --base-data-dir '/path/to/fold_dir' \
+  --cache-dir '/path/to/cache_dir' \
+  --target-col 'nihss' \
+  --task-type 'regression' \
+  --use-tabular \
+  --use-wandb \
+  --wandb-project '3dino-soop-outcome' \
+  --wandb-run-name 'soop-nihss-regression'
+```
+
 ## Unsupervised Visualization
 
 We provide example codes to generate unsupervised visualizations on an input image.

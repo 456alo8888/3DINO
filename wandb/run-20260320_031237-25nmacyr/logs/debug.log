@@ -1,0 +1,24 @@
+2026-03-20 03:12:37,121 INFO    MainThread:4013227 [wandb_setup.py:_flush():81] Current SDK version is 0.25.1
+2026-03-20 03:12:37,121 INFO    MainThread:4013227 [wandb_setup.py:_flush():81] Configure stats pid to 4013227
+2026-03-20 03:12:37,121 INFO    MainThread:4013227 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-03-20 03:12:37,121 INFO    MainThread:4013227 [wandb_init.py:setup_run_log_directory():717] Logging user logs to /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/wandb/run-20260320_031237-25nmacyr/logs/debug.log
+2026-03-20 03:12:37,121 INFO    MainThread:4013227 [wandb_init.py:setup_run_log_directory():718] Logging internal logs to /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/wandb/run-20260320_031237-25nmacyr/logs/debug-internal.log
+2026-03-20 03:12:37,121 INFO    MainThread:4013227 [wandb_init.py:init():844] calling init triggers
+2026-03-20 03:12:37,121 INFO    MainThread:4013227 [wandb_init.py:init():849] wandb.init called with sweep_config: {}
+config: {'dataset_name': 'SOOP', 'target_col': 'gs_rankin_6isdeath', 'task_type': 'regression', 'use_tabular': True, 'batch_size': 32, 'epochs': 10, 'epoch_length': 125, 'learning_rate': 0.001, 'weight_decay': 0.0, 'optimizer': 'adamw', 'normalize_features': True, 'grad_clip_norm': 1.0, 'diagnostics_period': 10, 'strict_pretrained': False, '_wandb': {}}
+2026-03-20 03:12:37,121 INFO    MainThread:4013227 [wandb_init.py:init():892] starting backend
+2026-03-20 03:12:37,878 INFO    MainThread:4013227 [wandb_init.py:init():895] sending inform_init request
+2026-03-20 03:12:37,883 INFO    MainThread:4013227 [wandb_init.py:init():903] backend started and connected
+2026-03-20 03:12:37,890 INFO    MainThread:4013227 [wandb_init.py:init():973] updated telemetry
+2026-03-20 03:12:37,899 INFO    MainThread:4013227 [wandb_init.py:init():997] communicating run to backend with 90.0 second timeout
+2026-03-20 03:12:39,103 INFO    MainThread:4013227 [wandb_init.py:init():1042] starting run threads in backend
+2026-03-20 03:12:39,342 INFO    MainThread:4013227 [wandb_run.py:_console_start():2524] atexit reg
+2026-03-20 03:12:39,342 INFO    MainThread:4013227 [wandb_run.py:_redirect():2373] redirect: wrap_raw
+2026-03-20 03:12:39,342 INFO    MainThread:4013227 [wandb_run.py:_redirect():2442] Wrapping output streams.
+2026-03-20 03:12:39,342 INFO    MainThread:4013227 [wandb_run.py:_redirect():2465] Redirects installed.
+2026-03-20 03:12:39,346 INFO    MainThread:4013227 [wandb_init.py:init():1082] run started, returning control to user process
+2026-03-20 03:55:21,368 INFO    MainThread:4013227 [wandb_run.py:_finish():2291] finishing run hieupcvp-hust/3dino-soop-outcome-raw/25nmacyr
+2026-03-20 03:55:21,369 INFO    MainThread:4013227 [wandb_run.py:_atexit_cleanup():2490] got exitcode: 0
+2026-03-20 03:55:21,370 INFO    MainThread:4013227 [wandb_run.py:_restore():2472] restore
+2026-03-20 03:55:21,370 INFO    MainThread:4013227 [wandb_run.py:_restore():2478] restore done
+2026-03-20 03:55:24,198 INFO    MainThread:4013227 [wandb_run.py:_footer_sync_info():3868] logging synced files

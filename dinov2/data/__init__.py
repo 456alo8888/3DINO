@@ -9,3 +9,4 @@ from .loaders import make_data_loader, SamplerType, make_dataset_3d, make_classi
 from .collate import collate_data_and_cast
 from .masking import MaskingGenerator3d
 from .augmentations import DataAugmentationDINO3d, CropForegroundSwapSliceDims
+from .soop_dataset import SOOPOutcomeDataset

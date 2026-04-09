@@ -3,7 +3,7 @@ train:
   data_min_axis_size: 48
   OFFICIAL_EPOCH_LENGTH: 125
 student:
-  full_pretrained_weights: 'path/to/eval/training_124999/teacher_checkpoint.pth'
+  full_pretrained_weights: '/mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/weight/3dino_vit_weights.pth'
 crops:
   global_crops_size: 112
   local_crops_size: 64

@@ -12,3 +12,5 @@ cufile.log
 *.swp
 
 .vscode/
+SOOP_result_image/
+SOOP_result_image_tabular/

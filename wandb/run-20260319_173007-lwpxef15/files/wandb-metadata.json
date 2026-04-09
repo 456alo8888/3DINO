@@ -1,0 +1,88 @@
+{
+  "os": "Linux-6.17.0-14-generic-x86_64-with-glibc2.39",
+  "python": "CPython 3.12.7",
+  "startedAt": "2026-03-19T10:30:07.639230Z",
+  "args": [
+    "--config-file",
+    "dinov2/configs/train/vit3d_highres.yaml",
+    "--pretrained-weights",
+    "/mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/weight/3dino_vit_weights.pth",
+    "--output-dir",
+    "/mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/SOOP_result_image",
+    "--dataset-name",
+    "SOOP",
+    "--base-data-dir",
+    "/mnt/disk2/hieupc2/Stroke_project/code/datasets/fold",
+    "--cache-dir",
+    "/tmp/soop_cache",
+    "--target-col",
+    "gs_rankin_6isdeath",
+    "--task-type",
+    "regression",
+    "--batch-size",
+    "32",
+    "--epochs",
+    "10",
+    "--epoch-length",
+    "125",
+    "--eval-period-iterations",
+    "125",
+    "--use-wandb"
+  ],
+  "program": "/mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/eval/linear3d_soop.py",
+  "codePath": "dinov2/eval/linear3d_soop.py",
+  "codePathLocal": "dinov2/eval/linear3d_soop.py",
+  "git": {
+    "remote": "git@github-hieupc:456alo8888/3DINO.git",
+    "commit": "a91d8619c552f25c32f665818e1ab724634a793c"
+  },
+  "email": "phunghieu5c@gmail.com",
+  "root": "/mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO",
+  "host": "aiotlab",
+  "executable": "/mnt/disk2/miniconda3/envs/hieupcvp/bin/python",
+  "cpu_count": 24,
+  "cpu_count_logical": 48,
+  "gpu": "NVIDIA GeForce RTX 3080",
+  "gpu_count": 4,
+  "disk": {
+    "/": {
+      "total": "470886195200",
+      "used": "130640338944"
+    }
+  },
+  "memory": {
+    "total": "134789763072"
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce RTX 3080",
+      "memoryTotal": "10737418240",
+      "cudaCores": 8704,
+      "architecture": "Ampere",
+      "uuid": "GPU-df9358c9-e067-c84e-ffdd-d3a5006a4732"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 3080",
+      "memoryTotal": "10737418240",
+      "cudaCores": 8704,
+      "architecture": "Ampere",
+      "uuid": "GPU-e7be64cb-18fa-eb0d-842d-f68b73c9d624"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 3080",
+      "memoryTotal": "10737418240",
+      "cudaCores": 8704,
+      "architecture": "Ampere",
+      "uuid": "GPU-85e91cb8-9b83-d1d5-bb54-5747227b004e"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 3080",
+      "memoryTotal": "10737418240",
+      "cudaCores": 8704,
+      "architecture": "Ampere",
+      "uuid": "GPU-20c9c761-8835-6917-49ae-0fa1112a2010"
+    }
+  ],
+  "cudaVersion": "13.0",
+  "writerId": "xycdsyta3gf3jjkv0i6rwy7sybyp3a8j"
+}

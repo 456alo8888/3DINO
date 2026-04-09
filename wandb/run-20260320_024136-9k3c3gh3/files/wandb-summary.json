@@ -1,0 +1,1 @@
+{"iteration":0,"train/feature_absmax":5.579466819763184,"train/feature_norm_mean":77.95677185058594,"_step":0,"_runtime":41,"train/pred_absmax":2.0601792335510254,"train/lr":0.0009999984208641272,"train/grad_norm":343.8499258663228,"train/loss":12.625765800476074,"_wandb":{"runtime":41},"_timestamp":1.7739493264361691e+09}

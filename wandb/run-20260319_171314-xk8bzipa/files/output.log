@@ -1,0 +1,206 @@
+/mnt/disk2/miniconda3/envs/hieupcvp/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+I20260319 17:13:17 3513603 dinov2 config.py:60] git:
+  sha: a91d8619c552f25c32f665818e1ab724634a793c, status: has uncommitted changes, branch: main
+
+I20260319 17:13:17 3513603 dinov2 config.py:61] adamw_beta1: 0.9
+adamw_beta2: 0.999
+adamw_eps: 1e-08
+allow_classification_outcome: False
+base_data_dir: /mnt/disk2/hieupc2/Stroke_project/code/datasets/fold
+batch_size: 8
+cache_dir: /tmp/soop_cache
+config_file: dinov2/configs/train/vit3d_highres.yaml
+dataset_name: SOOP
+dataset_percent: 100
+dataset_seed: 0
+diagnostics_period: 10
+drop_missing_labels: False
+epoch_length: 2
+epochs: 10
+eval_period_iterations: 2
+grad_clip_norm: 0.0
+image_size: 112
+learning_rate: 0.001
+n_last_blocks: 4
+no_resume: False
+normalize_features: False
+num_classes: 2
+num_workers: 4
+optimizer: auto
+opts: ['train.output_dir=/mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/SOOP_result_image', 'train.cache_dir=/tmp/soop_cache']
+output_dir: /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/SOOP_result_image
+pretrained_weights: /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/weight/3dino_vit_weights.pth
+save_checkpoint_frequency: 5
+sgd_momentum: 0.9
+strict_pretrained: False
+target_col: gs_rankin_6isdeath
+task_type: regression
+use_avgpool: False
+use_tabular: False
+use_wandb: True
+wandb_entity:
+wandb_mode: online
+wandb_project: 3dino-soop-outcome
+wandb_run_name:
+wandb_tags:
+weight_decay: 0.0
+I20260319 17:13:17 3513603 dinov2 config.py:27] sqrt scaling learning rate; base: 0.001, new: 0.00025
+I20260319 17:13:17 3513603 dinov2 config.py:34] MODEL:
+  WEIGHTS: ''
+compute_precision:
+  grad_scaler: true
+  teacher:
+    backbone:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp16
+        buffer_dtype: fp32
+    dino_head:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp16
+        buffer_dtype: fp32
+    ibot_head:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp16
+        buffer_dtype: fp32
+  student:
+    backbone:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp16
+        buffer_dtype: fp32
+    dino_head:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp32
+        buffer_dtype: fp32
+    ibot_head:
+      sharding_strategy: SHARD_GRAD_OP
+      mixed_precision:
+        param_dtype: fp16
+        reduce_dtype: fp32
+        buffer_dtype: fp32
+dino:
+  loss_weight: 1.0
+  head_n_prototypes: 65536
+  head_bottleneck_dim: 256
+  head_nlayers: 3
+  head_hidden_dim: 2048
+  koleo_loss_weight: 0.1
+ibot:
+  loss_weight: 1.0
+  mask_sample_probability: 0.5
+  mask_ratio_min_max:
+  - 0.2
+  - 0.75
+  separate_head: true
+  head_n_prototypes: 65536
+  head_bottleneck_dim: 256
+  head_nlayers: 3
+  head_hidden_dim: 2048
+train:
+  batch_size_per_gpu: 64
+  data_min_axis_size: 48
+  dataset_path: /home/txu/scratch/amgrp/dinov2_3d/dinov2_subset_datalist.json
+  output_dir: /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/SOOP_result_image
+  saveckp_freq: 20
+  seed: 0
+  num_workers: 32
+  OFFICIAL_EPOCH_LENGTH: 125
+  cache_dataset: true
+  centering: sinkhorn_knopp
+  cache_dir: /tmp/soop_cache
+student:
+  arch: vit_large_3d
+  patch_size: 16
+  drop_path_rate: 0.3
+  layerscale: 1.0e-05
+  drop_path_uniform: true
+  pretrained_weights: ''
+  full_pretrained_weights: /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/weight/3dino_vit_weights.pth
+  ffn_layer: mlp
+  block_chunks: 4
+  qkv_bias: true
+  proj_bias: true
+  ffn_bias: true
+teacher:
+  momentum_teacher: 0.992
+  final_momentum_teacher: 1
+  warmup_teacher_temp: 0.04
+  teacher_temp: 0.07
+  warmup_teacher_temp_epochs: 30
+optim:
+  epochs: 100
+  weight_decay: 0.04
+  weight_decay_end: 0.4
+  base_lr: 0.001
+  lr: 0.00025
+  warmup_epochs: 10
+  min_lr: 1.0e-06
+  clip_grad: 3.0
+  freeze_last_layer_epochs: 1
+  scaling_rule: sqrt_wrt_1024
+  patch_embed_lr_mult: 0.2
+  layerwise_decay: 0.9
+  adamw_beta1: 0.9
+  adamw_beta2: 0.999
+crops:
+  global_crops_in_slice_scale:
+  - 0.48
+  - 1.0
+  global_crops_cross_slice_scale:
+  - 0.5
+  - 1.0
+  local_crops_number: 8
+  local_crops_in_slice_scale:
+  - 0.16
+  - 0.48
+  local_crops_cross_slice_scale:
+  - 0.2
+  - 0.5
+  global_crops_size: 112
+  local_crops_size: 64
+evaluation:
+  eval_period_iterations: 3125
+
+I20260319 17:13:17 3513603 dinov2 vision_transformer.py:109] using MLP layer as FFN
+I20260319 17:13:22 3513603 dinov2 utils.py:27] Take key teacher in provided checkpoint dict
+I20260319 17:13:22 3513603 dinov2 utils.py:34] Pretrained weights found at /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/weight/3dino_vit_weights.pth and loaded with msg: _IncompatibleKeys(missing_keys=[], unexpected_keys=['dino_head.mlp.0.weight', 'dino_head.mlp.0.bias', 'dino_head.mlp.2.weight', 'dino_head.mlp.2.bias', 'dino_head.mlp.4.weight', 'dino_head.mlp.4.bias', 'dino_head.last_layer.weight_g', 'dino_head.last_layer.weight_v', 'ibot_head.mlp.0.weight', 'ibot_head.mlp.0.bias', 'ibot_head.mlp.2.weight', 'ibot_head.mlp.2.bias', 'ibot_head.mlp.4.weight', 'ibot_head.mlp.4.bias', 'ibot_head.last_layer.weight_g', 'ibot_head.last_layer.weight_v'])
+I20260319 17:13:23 3513603 dinov2 loaders.py:220] # of train samples: 461
+I20260319 17:13:23 3513603 dinov2 loaders.py:221] # of val samples: 99
+I20260319 17:13:23 3513603 dinov2 loaders.py:222] # of test samples: 99
+W20260319 17:13:23 3513603 py.warnings warnings.py:112] /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/dinov2/eval/utils.py:41: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with self.autocast_ctx():
+
+I20260319 17:13:23 3513603 dinov2 linear3d_soop.py:417] optimizer=adamw lr=0.001 wd=0.0 normalize_features=False grad_clip_norm=0.0 strict_pretrained=False backbone_trainable=0 head_trainable=4097
+I20260319 17:13:23 3513603 dinov2 loaders.py:283] sampler: sharded infinite
+I20260319 17:13:23 3513603 dinov2 loaders.py:367] using PyTorch data loader
+I20260319 17:13:23 3513603 dinov2 loaders.py:382] infinite data loader
+I20260319 17:13:23 3513603 dinov2 loaders.py:308] sampler: distributed
+I20260319 17:13:23 3513603 dinov2 loaders.py:367] using PyTorch data loader
+I20260319 17:13:23 3513603 dinov2 loaders.py:380] # of batches: 13
+I20260319 17:13:23 3513603 dinov2 loaders.py:308] sampler: distributed
+I20260319 17:13:23 3513603 dinov2 loaders.py:367] using PyTorch data loader
+I20260319 17:13:23 3513603 dinov2 loaders.py:380] # of batches: 13
+train: 100%|█████████████████████████████| 20/20 [07:09<00:00, 21.46s/it, grad=6.98e+01, loss=2.9184, lr=4.22e-04]
+I20260319 17:13:29 3513603 dinov2 linear3d_soop.py:505] iter=0 loss=8.600451 lr=0.000993844 grad_norm=317.449159 feature_absmax=4.989305 feature_norm_mean=78.124359 pred_absmax=2.205041
+I20260319 17:14:12 3513603 dinov2 linear3d_soop.py:544] val_metrics={"loss": 6.155914557100546, "mae": 2.068729877471924, "mape": 6205780480.0, "mse": 6.155914783477783, "r2": -0.937014102935791, "rmse": 2.481111526489258} samples=99
+I20260319 17:14:54 3513603 dinov2 linear3d_soop.py:544] val_metrics={"loss": 8.244838704966535, "mae": 2.3724098205566406, "mape": 7115262976.0, "mse": 8.24483871459961, "r2": -1.5943129062652588, "rmse": 2.871382713317871} samples=99
+I20260319 17:15:37 3513603 dinov2 linear3d_soop.py:544] val_metrics={"loss": 4.826983731202405, "mae": 1.8764785528182983, "mape": 5127608832.0, "mse": 4.826983451843262, "r2": -0.5188539028167725, "rmse": 2.1970396041870117} samples=99
+I20260319 17:16:18 3513603 dinov2 linear3d_soop.py:544] val_metrics={"loss": 4.291569372620246, "mae": 1.7289040088653564, "mape": 2854768128.0, "mse": 4.291569232940674, "r2": -0.3503810167312622, "rmse": 2.07161021232605} samples=99
+I20260319 17:17:02 3513603 dinov2 linear3d_soop.py:544] val_metrics={"loss": 4.789559667760676, "mae": 1.763559341430664, "mape": 2041781376.0, "mse": 4.789559364318848, "r2": -0.5070780515670776, "rmse": 2.1885061264038086} samples=99
+I20260319 17:17:02 3513603 dinov2 linear3d_soop.py:505] iter=10 loss=2.918395 lr=0.000421783 grad_norm=69.836908 feature_absmax=5.436091 feature_norm_mean=77.892136 pred_absmax=2.634490
+I20260319 17:17:44 3513603 dinov2 linear3d_soop.py:544] val_metrics={"loss": 4.740584238611087, "mae": 1.7442762851715088, "mape": 1882836608.0, "mse": 4.740583896636963, "r2": -0.4916675090789795, "rmse": 2.177288293838501} samples=99
+I20260319 17:18:27 3513603 dinov2 linear3d_soop.py:544] val_metrics={"loss": 4.105852444966634, "mae": 1.6522448062896729, "mape": 2302437120.0, "mse": 4.1058526039123535, "r2": -0.2919435501098633, "rmse": 2.0262904167175293} samples=99
+I20260319 17:19:09 3513603 dinov2 linear3d_soop.py:544] val_metrics={"loss": 3.6545981493863193, "mae": 1.5951447486877441, "mape": 2794401024.0, "mse": 3.6545979976654053, "r2": -0.14995229244232178, "rmse": 1.9117002487182617} samples=99
+I20260319 17:19:51 3513603 dinov2 linear3d_soop.py:544] val_metrics={"loss": 3.5253076095773714, "mae": 1.5779850482940674, "mape": 3009277440.0, "mse": 3.5253076553344727, "r2": -0.10926985740661621, "rmse": 1.8775802850723267} samples=99
+I20260319 17:20:33 3513603 dinov2 linear3d_soop.py:544] val_metrics={"loss": 3.50451965043039, "mae": 1.5754330158233643, "mape": 3051313408.0, "mse": 3.5045197010040283, "r2": -0.10272872447967529, "rmse": 1.8720362186431885} samples=99
+I20260319 17:21:57 3513603 dinov2 linear3d_soop.py:641] SOOP evaluation finished. Results written to: /mnt/disk2/hieupc2/Stroke_project/code/baseline_encoder/3DINO/SOOP_result_image/results_eval_linear_soop.json

@@ -159,6 +159,9 @@ def make_classification_dataset_3d(
     val_transforms: Callable,
     cache_path: str,
     dataset_seed: int,
+    target_col: str = "gs_rankin_6isdeath",
+    include_tabular: bool = False,
+    drop_missing_labels: bool = False,
 ):
     """
     Creates a 3d classification dataset with the specified parameters.
@@ -181,6 +184,43 @@ def make_classification_dataset_3d(
     elif dataset_name == 'COVID-CT-MD':
         datalist_path = os.path.join(base_directory, 'COVID-CT-MD_cls_datalist.json')
         class_num = 3
+    elif dataset_name == 'SOOP':
+        from .soop_dataset import SOOPOutcomeDataset
+
+        train_csv = os.path.join(base_directory, 'train.csv')
+        valid_csv = os.path.join(base_directory, 'valid.csv')
+        test_csv = os.path.join(base_directory, 'test.csv')
+
+        train_dataset = SOOPOutcomeDataset(
+            split_csv=train_csv,
+            target_col=target_col,
+            transform=train_transforms,
+            include_tabular=include_tabular,
+            drop_missing_labels=drop_missing_labels,
+        )
+        val_dataset = SOOPOutcomeDataset(
+            split_csv=valid_csv,
+            target_col=target_col,
+            transform=val_transforms,
+            include_tabular=include_tabular,
+            drop_missing_labels=drop_missing_labels,
+            return_subject_id=True,
+        )
+        test_dataset = SOOPOutcomeDataset(
+            split_csv=test_csv,
+            target_col=target_col,
+            transform=val_transforms,
+            include_tabular=include_tabular,
+            drop_missing_labels=drop_missing_labels,
+            return_subject_id=True,
+        )
+
+        class_num = 2 if target_col in ("gs_rankin_6isdeath", "gs_rankin+6isdeath") else 4
+
+        logger.info(f"# of train samples: {len(train_dataset):,d}")
+        logger.info(f"# of val samples: {len(val_dataset):,d}")
+        logger.info(f"# of test samples: {len(test_dataset):,d}")
+        return train_dataset, val_dataset, test_dataset, class_num
     else:
         raise ValueError(f'Unsupported dataset "{dataset_name}"')
 
