@@ -1,1 +1,0 @@
-{"train/feature_norm_mean":78.18148803710938,"train/loss":4.151492595672607,"iteration":10,"_timestamp":1.7739161926714752e+09,"train/lr":0.0009998089366284391,"train/pred_absmax":2.7943360805511475,"_step":1,"train/grad_norm":91.56496862865696,"_runtime":22,"train/feature_absmax":5.581623077392578,"_wandb":{"runtime":22}}
