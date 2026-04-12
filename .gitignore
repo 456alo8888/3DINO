@@ -17,3 +17,5 @@ SOOP_result_image/
 SOOP_result_image_tabular/
 dinov2/weight/
 dinov2/research_codebase
+
+dinov2/weight/
