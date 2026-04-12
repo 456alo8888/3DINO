@@ -15,3 +15,4 @@ wandb/
 .vscode/
 SOOP_result_image/
 SOOP_result_image_tabular/
+dinov2/weight/
