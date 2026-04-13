@@ -52,6 +52,64 @@ def _ensure_soop_channel_first(image):
     raise ValueError(f"SOOP image must be single-channel, got shape={shape}")
 
 
+def make_soop_aligned_transform_3d(image_size: int, min_int: float):
+    if image_size == 0:
+        resize_transform = Identityd(keys=["image", "mask"])
+    else:
+        resize_transform = Resized(
+            keys=["image", "mask"],
+            spatial_size=(image_size, image_size, image_size),
+            mode=("trilinear", "nearest"),
+        )
+
+    shared_train = Compose(
+        [
+            EnsureTyped(keys=["image", "mask", "label"]),
+            Lambdad(keys=["image", "mask"], func=_ensure_soop_channel_first),
+            CropForegroundd(keys=["image", "mask"], source_key="image", select_fn=lambda x: x > min_int),
+            resize_transform,
+            RandFlipd(keys=["image", "mask"], prob=0.5, spatial_axis=0),
+            RandFlipd(keys=["image", "mask"], prob=0.5, spatial_axis=1),
+            RandFlipd(keys=["image", "mask"], prob=0.5, spatial_axis=2),
+        ]
+    )
+
+    shared_val = Compose(
+        [
+            EnsureTyped(keys=["image", "mask", "label"]),
+            Lambdad(keys=["image", "mask"], func=_ensure_soop_channel_first),
+            CropForegroundd(keys=["image", "mask"], source_key="image", select_fn=lambda x: x > min_int),
+            resize_transform,
+        ]
+    )
+
+    image_only_train = Compose(
+        [
+            ScaleIntensityRangePercentilesd(
+                keys=["image"], lower=0.05, upper=99.95, b_min=min_int, b_max=1, clip=True, channel_wise=True
+            ),
+            OneOf(transforms=[
+                RandAdjustContrastd(keys=["image"], prob=0.3, gamma=(0.5, 2)),
+                RandGaussianSharpend(keys=["image"], prob=0.3),
+                RandGaussianSmoothd(keys=["image"], prob=0.3),
+                RandGaussianNoised(keys=["image"], prob=0.3, std=0.002),
+            ]),
+            RandScaleIntensityd(keys="image", factors=0.1, prob=1.0),
+            RandShiftIntensityd(keys="image", offsets=0.1, prob=1.0),
+        ]
+    )
+
+    image_only_val = Compose(
+        [
+            ScaleIntensityRangePercentilesd(
+                keys=["image"], lower=0.05, upper=99.95, b_min=min_int, b_max=1, clip=True, channel_wise=True
+            ),
+        ]
+    )
+
+    return shared_train, shared_val, image_only_train, image_only_val
+
+
 def make_classification_transform_3d(dataset_name: str, image_size: int, min_int: float):
     """
     Create a training and validation transform for 3D classification tasks.
