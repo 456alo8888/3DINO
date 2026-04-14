@@ -19,3 +19,6 @@ dinov2/weight/
 dinov2/research_codebase
 
 dinov2/weight/
+outputs/
+research/*.md
+
